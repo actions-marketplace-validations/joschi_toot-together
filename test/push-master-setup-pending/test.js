@@ -1,6 +1,6 @@
 /**
  * This test checks the setup routine that occurs on a push to master
- * when the `tweets/` folder does not yet exist, but there is a pending
+ * when the `toots/` folder does not yet exist, but there is a pending
  * pull request adding it already
  */
 
@@ -18,7 +18,7 @@ process.env.GITHUB_WORKSPACE = path.dirname(process.env.GITHUB_EVENT_PATH);
 
 // set other env variables so action-toolkit is happy
 process.env.GITHUB_WORKFLOW = "";
-process.env.GITHUB_ACTION = "twitter-together";
+process.env.GITHUB_ACTION = "toot-together";
 process.env.GITHUB_ACTOR = "";
 process.env.GITHUB_REPOSITORY = "";
 process.env.GITHUB_SHA = "";
@@ -29,8 +29,8 @@ nock("https://api.github.com", {
     authorization: "token secret123",
   },
 })
-  // check if twitter-together-setup branch exists
-  .head("/repos/gr2m/twitter-together/git/refs/heads/twitter-together-setup")
+  // check if toot-together-setup branch exists
+  .head("/repos/joschi/toot-together/git/refs/heads/toot-together-setup")
   .reply(200);
 
 process.on("exit", (code) => {

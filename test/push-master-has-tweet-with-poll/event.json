@@ -7,9 +7,9 @@
   },
   "repository": {
     "owner": {
-      "login": "gr2m"
+      "login": "joschi"
     },
-    "name": "twitter-together",
+    "name": "toot-together",
     "default_branch": "master"
   }
 }

@@ -1,6 +1,6 @@
 ---
 name: "💝 Thank you"
-about: "twitter-together is awesome 🙌"
+about: "toot-together is awesome 🙌"
 labels: thanks
 ---
 
@@ -8,7 +8,7 @@ labels: thanks
 
 **How do you use twitter-together?**
 
-<!-- I’d love to know how you use twitter-together, to better understand people’s use cases -->
+<!-- I’d love to know how you use toot-together, to better understand people’s use cases -->
 
 **What do you love about it?**
 

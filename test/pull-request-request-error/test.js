@@ -14,7 +14,7 @@ process.env.GITHUB_EVENT_PATH = require.resolve("./event.json");
 process.env.GITHUB_REF = "";
 process.env.GITHUB_WORKSPACE = "";
 process.env.GITHUB_WORKFLOW = "";
-process.env.GITHUB_ACTION = "twitter-together";
+process.env.GITHUB_ACTION = "toot-together";
 process.env.GITHUB_ACTOR = "";
 process.env.GITHUB_REPOSITORY = "";
 process.env.GITHUB_SHA = "";
@@ -26,7 +26,7 @@ nock("https://api.github.com", {
   },
 })
   // get changed files
-  .get("/repos/gr2m/twitter-together/pulls/123/files")
+  .get("/repos/joschi/toot-together/pulls/123/files")
   .reply(500);
 
 process.on("exit", (code) => {

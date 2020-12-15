@@ -1,5 +1,5 @@
 /**
- * This test checks the happy path of pull request adding a new *.tweet file
+ * This test checks the happy path of pull request adding a new *.toot file
  */
 
 const assert = require("assert");
@@ -16,7 +16,7 @@ process.env.GITHUB_EVENT_PATH = require.resolve("./event.json");
 process.env.GITHUB_REF = "";
 process.env.GITHUB_WORKSPACE = "";
 process.env.GITHUB_WORKFLOW = "";
-process.env.GITHUB_ACTION = "twitter-together";
+process.env.GITHUB_ACTION = "toot-together";
 process.env.GITHUB_ACTOR = "";
 process.env.GITHUB_REPOSITORY = "";
 process.env.GITHUB_SHA = "";
@@ -28,11 +28,11 @@ nock("https://api.github.com", {
   },
 })
   // get changed files
-  .get("/repos/gr2m/twitter-together/pulls/123/files")
+  .get("/repos/joschi/toot-together/pulls/123/files")
   .reply(200, [
     {
       status: "added",
-      filename: "tweets/hello-world.tweet",
+      filename: "toots/hello-world.toot",
     },
   ]);
 
@@ -43,14 +43,14 @@ nock("https://api.github.com", {
     authorization: "token secret123",
   },
 })
-  .get("/repos/gr2m/twitter-together/pulls/123")
+  .get("/repos/joschi/toot-together/pulls/123")
   .reply(
     200,
-    `diff --git a/tweets/progress.tweet b/tweets/progress.tweet
+    `diff --git a/toots/progress.toot b/toots/progress.toot
 new file mode 100644
 index 0000000..0123456
 --- /dev/null
-+++ b/tweets/hello-world.tweet
++++ b/toots/hello-world.toot
 @@ -0,0 +6 @@
 +Here is my poll
 +
@@ -64,18 +64,18 @@ index 0000000..0123456
 // create check run
 nock("https://api.github.com")
   // get changed files
-  .post("/repos/gr2m/twitter-together/check-runs", (body) => {
+  .post("/repos/joschi/toot-together/check-runs", (body) => {
     tap.equal(body.name, "preview");
     tap.equal(body.head_sha, "0000000000000000000000000000000000000002");
     tap.equal(body.status, "completed");
     tap.equal(body.conclusion, "success");
     tap.deepEqual(body.output, {
-      title: "1 tweet(s)",
+      title: "1 toot(s)",
       summary: `### ❌ Invalid
 
 > Here is my poll
 
-The tweet includes a poll, but it has 5 options. A poll must have 2-4 options.`,
+The toot includes a poll, but it has 5 options. A poll must have 2-4 options.`,
     });
 
     return true;

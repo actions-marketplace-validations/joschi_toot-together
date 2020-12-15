@@ -1,5 +1,5 @@
 /**
- * This test checks the happy path of pull request adding a new *.tweet file
+ * This test checks the happy path of pull request adding a new *.toot file
  */
 
 const tap = require("tap");
@@ -14,7 +14,7 @@ process.env.GITHUB_EVENT_PATH = require.resolve("./event.json");
 process.env.GITHUB_REF = "";
 process.env.GITHUB_WORKSPACE = "";
 process.env.GITHUB_WORKFLOW = "";
-process.env.GITHUB_ACTION = "twitter-together";
+process.env.GITHUB_ACTION = "toot-together";
 process.env.GITHUB_ACTOR = "";
 process.env.GITHUB_REPOSITORY = "";
 process.env.GITHUB_SHA = "";
@@ -26,11 +26,11 @@ nock("https://api.github.com", {
   },
 })
   // get changed files
-  .get("/repos/gr2m/twitter-together/pulls/123/files")
+  .get("/repos/joschi/toot-together/pulls/123/files")
   .reply(200, [
     {
       status: "updated",
-      filename: "tweets/hello-world.tweet",
+      filename: "toots/hello-world.toot",
     },
   ]);
 

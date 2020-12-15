@@ -1,6 +1,6 @@
 /**
  * This test checks the happy path of a commit to the main branch (master)
- * which includes a new *.tweet file.
+ * which includes a new *.toot file.
  */
 
 const assert = require("assert");
@@ -15,10 +15,11 @@ process.env.GITHUB_TOKEN = "secret123";
 process.env.GITHUB_EVENT_PATH = require.resolve("./event.json");
 process.env.GITHUB_REF = "refs/heads/master";
 process.env.GITHUB_WORKSPACE = path.dirname(process.env.GITHUB_EVENT_PATH);
+process.env.MASTODON_URL = "https://mastodon.example";
 
 // set other env variables so action-toolkit is happy
 process.env.GITHUB_WORKFLOW = "";
-process.env.GITHUB_ACTION = "twitter-together";
+process.env.GITHUB_ACTION = "toot-together";
 process.env.GITHUB_ACTOR = "";
 process.env.GITHUB_REPOSITORY = "";
 process.env.GITHUB_SHA = "";
@@ -31,38 +32,39 @@ nock("https://api.github.com", {
 })
   // get changed files
   .get(
-    "/repos/gr2m/twitter-together/compare/0000000000000000000000000000000000000001...0000000000000000000000000000000000000002"
+    "/repos/joschi/toot-together/compare/0000000000000000000000000000000000000001...0000000000000000000000000000000000000002"
   )
   .reply(200, {
     files: [
       {
         status: "added",
-        filename: "tweets/cupcake-ipsum.tweet",
+        filename: "toots/cupcake-ipsum.toot",
       },
     ],
   })
 
   // post comment
   .post(
-    "/repos/gr2m/twitter-together/commits/0000000000000000000000000000000000000002/comments",
+    "/repos/joschi/toot-together/commits/0000000000000000000000000000000000000002/comments",
     (body) => {
       console.log(body.body);
-      tap.equal(body.body, "Errors:\n\n- Tweet needs to be a bit shorter.");
+      tap.equal(body.body, "Errors:\n\n- Text character limit of 500 exceeded");
       return true;
     }
   )
   .reply(201);
 
-nock("https://api.twitter.com")
-  .post("/1.1/statuses/update.json")
-  .reply(403, {
-    errors: [
-      {
-        code: 186,
-        message: "Tweet needs to be a bit shorter.",
-      },
-    ],
+nock("https://mastodon.example")
+  .get("/api/v1/instance")
+  .reply(200, {
+    urls: {
+      streaming_api: "wss://mastodon.example",
+    },
   });
+
+nock("https://mastodon.example").post("/api/v1/statuses").reply(422, {
+  error: "Text character limit of 500 exceeded",
+});
 
 process.on("exit", (code) => {
   assert.equal(code, 1);

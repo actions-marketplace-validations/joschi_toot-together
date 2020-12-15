@@ -1,6 +1,6 @@
 /**
  * This test checks the happy path of a commit to the main branch (master)
- * which includes a new *.tweet file.
+ * which includes a new *.toot file.
  */
 
 const tap = require("tap");
@@ -14,7 +14,7 @@ process.env.GITHUB_TOKEN = "secret123";
 // set other env variables so action-toolkit is happy
 process.env.GITHUB_WORKSPACE = "";
 process.env.GITHUB_WORKFLOW = "";
-process.env.GITHUB_ACTION = "twitter-together";
+process.env.GITHUB_ACTION = "toot-together";
 process.env.GITHUB_ACTOR = "";
 process.env.GITHUB_REPOSITORY = "";
 process.env.GITHUB_SHA = "";

@@ -1,5 +1,5 @@
 /**
- * This test checks the happy path of pull request adding a new *.tweet file
+ * This test checks the happy path of pull request adding a new *.toot file
  */
 
 const assert = require("assert");
@@ -16,7 +16,7 @@ process.env.GITHUB_EVENT_PATH = require.resolve("./event.json");
 process.env.GITHUB_REF = "";
 process.env.GITHUB_WORKSPACE = "";
 process.env.GITHUB_WORKFLOW = "";
-process.env.GITHUB_ACTION = "twitter-together";
+process.env.GITHUB_ACTION = "toot-together";
 process.env.GITHUB_ACTOR = "";
 process.env.GITHUB_REPOSITORY = "";
 process.env.GITHUB_SHA = "";
@@ -28,11 +28,11 @@ nock("https://api.github.com", {
   },
 })
   // get changed files
-  .get("/repos/gr2m/twitter-together/pulls/123/files")
+  .get("/repos/joschi/toot-together/pulls/123/files")
   .reply(200, [
     {
       status: "added",
-      filename: "tweets/hello-world.tweet",
+      filename: "toots/hello-world.toot",
     },
   ]);
 
@@ -43,15 +43,16 @@ nock("https://api.github.com", {
     authorization: "token secret123",
   },
 })
-  .get("/repos/gr2m/twitter-together/pulls/123")
+  .get("/repos/joschi/toot-together/pulls/123")
   .reply(
     200,
-    `diff --git a/tweets/progress.tweet b/tweets/progress.tweet
+    `diff --git a/toots/progress.toot b/toots/progress.toot
 new file mode 100644
 index 0000000..0123456
 --- /dev/null
-+++ b/tweets/hello-world.tweet
++++ b/toots/hello-world.toot
 @@ -0,0 +1 @@
++Cupcake ipsum dolor sit amet chupa chups candy halvah I love. Apple pie gummi bears chupa chups jujubes I love cake jelly. Jelly candy canes pudding jujubes caramels sweet roll I love. Sweet fruitcake oat cake I love brownie sesame snaps apple pie lollipop. Pie dragée I love apple pie cotton candy candy chocolate bar.
 +Cupcake ipsum dolor sit amet chupa chups candy halvah I love. Apple pie gummi bears chupa chups jujubes I love cake jelly. Jelly candy canes pudding jujubes caramels sweet roll I love. Sweet fruitcake oat cake I love brownie sesame snaps apple pie lollipop. Pie dragée I love apple pie cotton candy candy chocolate bar.`
   );
 

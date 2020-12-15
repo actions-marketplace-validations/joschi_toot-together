@@ -1,6 +1,6 @@
 /**
  * This test checks the happy path of a commit to the main branch (master)
- * which includes a new *.tweet file.
+ * which includes a new *.toot file.
  */
 
 const path = require("path");
@@ -14,10 +14,11 @@ process.env.GITHUB_TOKEN = "secret123";
 process.env.GITHUB_EVENT_PATH = require.resolve("./event.json");
 process.env.GITHUB_REF = "refs/heads/master";
 process.env.GITHUB_WORKSPACE = path.dirname(process.env.GITHUB_EVENT_PATH);
+process.env.MASTODON_URL = "https://mastodon.example";
 
 // set other env variables so action-toolkit is happy
 process.env.GITHUB_WORKFLOW = "";
-process.env.GITHUB_ACTION = "twitter-together";
+process.env.GITHUB_ACTION = "toot-together";
 process.env.GITHUB_ACTOR = "";
 process.env.GITHUB_REPOSITORY = "";
 process.env.GITHUB_SHA = "";
@@ -26,7 +27,7 @@ process.env.GITHUB_SHA = "";
 nock("https://api.github.com")
   // get changed files
   .get(
-    "/repos/gr2m/twitter-together/compare/0000000000000000000000000000000000000001...0000000000000000000000000000000000000002"
+    "/repos/joschi/toot-together/compare/0000000000000000000000000000000000000001...0000000000000000000000000000000000000002"
   )
   .reply(500);
 

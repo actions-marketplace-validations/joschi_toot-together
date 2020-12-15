@@ -1,6 +1,6 @@
 /**
  * This test checks the setup routine that occurs on a push to master
- * when the `tweets/` folder does not yet exist
+ * when the `toots/` folder does not yet exist
  */
 
 const assert = require("assert");
@@ -19,7 +19,7 @@ process.env.GITHUB_SHA = "0000000000000000000000000000000000000002";
 
 // set other env variables so action-toolkit is happy
 process.env.GITHUB_WORKFLOW = "";
-process.env.GITHUB_ACTION = "twitter-together";
+process.env.GITHUB_ACTION = "toot-together";
 process.env.GITHUB_ACTOR = "";
 process.env.GITHUB_REPOSITORY = "";
 
@@ -29,50 +29,50 @@ nock("https://api.github.com", {
     authorization: "token secret123",
   },
 })
-  // check if twitter-together-setup branch exists
-  .head("/repos/gr2m/twitter-together/git/refs/heads/twitter-together-setup")
+  // check if toot-together-setup branch exists
+  .head("/repos/joschi/toot-together/git/refs/heads/toot-together-setup")
   .reply(404)
 
-  // Create the "twitter-together-setup" branch
-  .post("/repos/gr2m/twitter-together/git/refs", (body) => {
-    tap.equal(body.ref, "refs/heads/twitter-together-setup");
+  // Create the "toot-together-setup" branch
+  .post("/repos/joschi/toot-together/git/refs", (body) => {
+    tap.equal(body.ref, "refs/heads/toot-together-setup");
     tap.equal(body.sha, "0000000000000000000000000000000000000002");
 
     return true;
   })
   .reply(201)
 
-  // Read contents of tweets/README.md file in gr2m/twitter-together
-  .get("/repos/gr2m/twitter-together/contents/tweets/README.md")
-  .reply(200, "contents of tweets/README.md")
+  // Read contents of toots/README.md file in joschi/toot-together
+  .get("/repos/joschi/toot-together/contents/toots/README.md")
+  .reply(200, "contents of toots/README.md")
 
-  // Create tweets/README.md file
-  .put("/repos/gr2m/twitter-together/contents/tweets/README.md", (body) => {
+  // Create toots/README.md file
+  .put("/repos/joschi/toot-together/contents/toots/README.md", (body) => {
     tap.equal(
       body.content,
-      Buffer.from("contents of tweets/README.md").toString("base64")
+      Buffer.from("contents of toots/README.md").toString("base64")
     );
-    tap.equal(body.branch, "twitter-together-setup");
-    tap.equal(body.message, "twitter-together setup");
+    tap.equal(body.branch, "toot-together-setup");
+    tap.equal(body.message, "toot-together setup");
 
     return true;
   })
   .reply(201)
 
   // Create pull request
-  .post("/repos/gr2m/twitter-together/pulls", (body) => {
-    tap.equal(body.title, "🐦 twitter-together setup");
+  .post("/repos/joschi/toot-together/pulls", (body) => {
+    tap.equal(body.title, "🐘 toot-together setup");
     tap.match(
       body.body,
-      /This pull requests creates the `tweets\/` folder where your `\*\.tweet` files go into/
+      /This pull requests creates the `toots\/` folder where your `\*\.toot` files go into/
     );
-    tap.equal(body.head, "twitter-together-setup");
+    tap.equal(body.head, "toot-together-setup");
     tap.equal(body.base, "master");
 
     return true;
   })
   .reply(201, {
-    html_url: "https://github.com/gr2m/twitter-together/pull/123",
+    html_url: "https://github.com/joschi/toot-together/pull/123",
   });
 
 process.on("exit", (code) => {

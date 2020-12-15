@@ -14,9 +14,9 @@
   },
   "repository": {
     "default_branch": "master",
-    "name": "twitter-together",
+    "name": "toot-together",
     "owner": {
-      "login": "gr2m"
+      "login": "joschi"
     }
   }
 }

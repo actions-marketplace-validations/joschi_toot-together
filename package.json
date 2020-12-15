@@ -1,13 +1,13 @@
 {
-  "name": "twitter-together",
+  "name": "toot-together",
   "version": "0.0.0-development",
-  "description": "A GitHub action to tweet together using pull requests",
+  "description": "A GitHub action to toot together using pull requests",
   "main": "lib/index.js",
   "scripts": {
     "build": "ncc build lib/index.js -o dist",
     "coverage": "nyc report --reporter=html && open coverage/index.html",
-    "lint": "prettier --check '{lib,test}/**/*.js' 'docs/*.md' 'tweets/README.md' README.md package.json",
-    "lint:fix": "prettier --write '{lib,test}/**/*.js' 'docs/*.md' 'tweets/README.md' README.md package.json",
+    "lint": "prettier --check '{lib,test}/**/*.js' 'docs/*.md' 'toots/README.md' README.md package.json",
+    "lint:fix": "prettier --write '{lib,test}/**/*.js' 'docs/*.md' 'toots/README.md' README.md package.json",
     "test": "tap --100 test/*/test.js",
     "posttest": "npm run -s lint"
   },
@@ -17,9 +17,8 @@
   "dependencies": {
     "@actions/core": "1.2.6",
     "@octokit/action": "^2.0.0",
-    "parse-diff": "^0.7.0",
-    "twitter": "^1.7.1",
-    "twitter-text": "^3.0.0"
+    "masto": "^3.6.3",
+    "parse-diff": "^0.7.0"
   },
   "devDependencies": {
     "@semantic-release/git": "^9.0.0",
@@ -31,7 +30,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gr2m/tweet-together.git"
+    "url": "https://github.com/joschi/toot-together.git"
   },
   "release": {
     "plugins": [

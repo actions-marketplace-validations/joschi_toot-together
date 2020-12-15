@@ -1,6 +1,6 @@
 /**
  * This test checks the happy path of a commit to the main branch (master)
- * which includes a new *.tweet file.
+ * which includes a new *.toot file.
  */
 
 const assert = require("assert");
@@ -15,10 +15,11 @@ process.env.GITHUB_TOKEN = "secret123";
 process.env.GITHUB_EVENT_PATH = require.resolve("./event.json");
 process.env.GITHUB_REF = "refs/heads/master";
 process.env.GITHUB_WORKSPACE = path.dirname(process.env.GITHUB_EVENT_PATH);
+process.env.MASTODON_URL = "https://mastodon.example";
 
 // set other env variables so action-toolkit is happy
 process.env.GITHUB_WORKFLOW = "";
-process.env.GITHUB_ACTION = "twitter-together";
+process.env.GITHUB_ACTION = "toot-together";
 process.env.GITHUB_ACTOR = "";
 process.env.GITHUB_REPOSITORY = "";
 process.env.GITHUB_SHA = "";
@@ -34,54 +35,45 @@ nock("https://api.github.com", {
 })
   // get changed files
   .get(
-    "/repos/gr2m/twitter-together/compare/0000000000000000000000000000000000000001...0000000000000000000000000000000000000002"
+    "/repos/joschi/toot-together/compare/0000000000000000000000000000000000000001...0000000000000000000000000000000000000002"
   )
   .reply(200, {
     files: [
       {
         status: "added",
-        filename: "tweets/my-poll.tweet",
+        filename: "toots/my-poll.toot",
       },
     ],
   })
 
   // post comment
   .post(
-    "/repos/gr2m/twitter-together/commits/0000000000000000000000000000000000000002/comments",
+    "/repos/joschi/toot-together/commits/0000000000000000000000000000000000000002/comments",
     (body) => {
-      tap.equal(
-        body.body,
-        "Tweeted:\n\n- https://twitter.com/gr2m/status/0000000000000000001"
-      );
+      tap.equal(body.body, "Tooted:\n\n- https://mastodon.example/@joschi/1");
       return true;
     }
   )
   .reply(201);
 
-// lookup user ID
-nock("https://ads-api.twitter.com")
-  .post("/8/accounts/account123/cards/poll", (body) => {
-    tap.equal(body.name, "tweets/my-poll.tweet");
-    tap.equal(body.duration_in_minutes, "1440"); // two days
-    tap.equal(body.first_choice, "option 1");
-    tap.equal(body.second_choice, "option 2");
-    tap.equal(body.third_choice, "option 3");
-    tap.equal(body.fourth_choice, "option 4");
-    return true;
-  })
-  .reply(201, { data: { card_uri: "card://123" } });
+nock("https://mastodon.example")
+  .get("/api/v1/instance")
+  .reply(200, {
+    urls: {
+      streaming_api: "wss://mastodon.example",
+    },
+  });
 
-nock("https://api.twitter.com")
-  .post("/1.1/statuses/update.json", (body) => {
-    tap.equal(body.card_uri, "card://123");
+nock("https://mastodon.example")
+  .post("/api/v1/statuses", (body) => {
+    tap.deepEquals(body.poll, ["option 1", "option 2", "option 3", "option 4"]);
     tap.equal(body.status, "Here is my poll");
     return true;
   })
-  .reply(201, {
-    id_str: "0000000000000000001",
-    user: {
-      screen_name: "gr2m",
-    },
+  .reply(200, {
+    id: "1",
+    uri: "https://mastodon.example/users/joschi/statuses/1",
+    url: "https://mastodon.example/@joschi/1",
   });
 
 process.on("exit", (code) => {
