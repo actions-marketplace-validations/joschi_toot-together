@@ -30,9 +30,9 @@ Here is some text
 ## Notes
 
 - Only newly created files are handled, deletions, updates or renames are ignored.
-- `*.toot` files will not be created for toots you send out directly from twitter.com
+- Toots posted from other Mastodon clients will not be imported as `*.toot` files.
 - If you need to rename an existing toot file, please do so locally using [`git mv old_filename new_filename`](https://help.github.com/en/articles/renaming-a-file-using-the-command-line), otherwise it may occur as deleted and added which would trigger a new toot.
-- your message must fit into a single toot
+- Your message must fit into a single toot (typically 500 characters).
 
 ## Questions?
 
