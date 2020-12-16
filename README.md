@@ -15,6 +15,8 @@ For Open Source or event maintainers that share a project Mastodon account, `too
   <img src="assets/demo.gif" alt="Screencast demonstrating toot-together" />
 </p>
 
+`toot-together` is based on the amazing work of the [`twitter-together`](https://github.com/gr2m/twitter-together) project. ❤️
+
 <!-- toc -->
 
 - [Try it](#try-it)
