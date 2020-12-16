@@ -32,9 +32,9 @@ Open your newly created app in the "Development" tab and copy the string next to
 
 Now save the credentials into your repository’s "Secrets" settings as follows:
 
-| Mastodon Credential name | GitHub Secret name            |
-| ------------------------ | ----------------------------- |
-| Your access token        | `MASTODON_ACCESS_TOKEN`       |
+| Mastodon Credential name | GitHub Secret name      |
+| ------------------------ | ----------------------- |
+| Your access token        | `MASTODON_ACCESS_TOKEN` |
 
 ![](mastodon-05-repository-secrets.png)
 
