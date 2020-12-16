@@ -2,7 +2,7 @@ name: Update Prettier
 on:
   push:
     branches:
-      - "greenkeeper/prettier-*"
+      - master
 jobs:
   update_prettier:
     runs-on: ubuntu-latest
