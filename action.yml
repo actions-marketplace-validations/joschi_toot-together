@@ -1,7 +1,8 @@
 name: Toot, together!
-description: "Collaborate on toots just like you collaborate on code, using pull requests"
+description: "Collaborate on Mastodon posts (toots) just like you collaborate on code, using pull requests"
+author: 'Jochen Schalanda'
 branding:
-  icon: cast
+  icon: share-2
   color: blue
 runs:
   using: "node12"
