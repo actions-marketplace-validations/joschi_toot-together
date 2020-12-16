@@ -8,7 +8,9 @@ To create a new toot create a new `*.toot` file in this `toots/` folder.
 
 Create a new file `toots/hello-world.toot` with the content
 
-> Hello, world!
+```
+Hello, world!
+```
 
 You can use subfolders, e.g. `toots/2020-11/hello-world.toot`, as long as the file is in the `toots/` folder and has the `.toot` file extension
 
@@ -16,12 +18,14 @@ You can use subfolders, e.g. `toots/2020-11/hello-world.toot`, as long as the fi
 
 A toot including a poll must end with 2-4 options in the following format
 
-> Here is some text
->
-> ( ) option A  
-> ( ) option B  
-> ( ) option C  
-> ( ) option D
+```
+Here is some text
+
+[ ] option A
+[ ] option B
+[ ] option C
+[ ] option D
+```
 
 ## Notes
 

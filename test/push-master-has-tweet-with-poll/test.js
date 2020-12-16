@@ -24,9 +24,6 @@ process.env.GITHUB_ACTOR = "";
 process.env.GITHUB_REPOSITORY = "";
 process.env.GITHUB_SHA = "";
 
-// Needed for polls only
-process.env.TWITTER_ACCOUNT_ID = "account123";
-
 // MOCK
 nock("https://api.github.com", {
   reqheaders: {
